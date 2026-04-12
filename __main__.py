@@ -1,7 +1,7 @@
 import pandas as pd
 
 # import dataset
-dataframe = pd.read_csv("AI_Resume_Screening.csv")
+dataframe = pd.read_csv("source_data/AI_Resume_Screening.csv")
 
 # initial look
 print(f"{dataframe.head(5).to_string()}\n")
@@ -27,7 +27,8 @@ print(f"\nluksim note - observed that column headings aren't standardised\n")
 dataframe.columns = dataframe.columns.str.strip().str.lower().str.replace(r'[\(\)]', '', regex=True).str.replace('-', '_').str.replace(' ', '_')
 dataframe.info()
 print(f"\nluksim note - observed that recruiter_decision str needs to be mapped to int64")
-print(f"luksim note - observed that skills, education, certifications, and job_role are str and need to be mapped to int64\n")
+print(f"luksim note - observed that skills, education, certifications, and job_role are str and need to be mapped to int64")
+print(f"luksim note - observed that resume_id and ai_score_0_100 are unnecessary for model and can be dropped\n")
 
 # binary encoding
 dataframe['recruiter_decision'] = dataframe['recruiter_decision'].map({'Hire': 1, 'Reject': 0})
@@ -43,8 +44,10 @@ one_hot_certification = dataframe['certifications'].str.strip().str.lower().str.
 one_hot_certification.columns = one_hot_certification.columns.str.replace(' ', '_')
 # remove clutter columns
 one_hot_certification = one_hot_certification.drop(columns=['certification_none'])
-# remove encoded headings from dataframe
+# remove encoded columns from dataframe
 dataframe = dataframe.drop(columns=['skills', 'education', 'job_role', 'certifications'])
+# remove unnecessary id column and ai_score_0_100 as this is what model will be developed to predict
+dataframe = dataframe.drop(columns=['resume_id', 'ai_score_0_100'])
 
 # check processing
 print(f"{dataframe.head(3).to_string()}\n")
@@ -56,6 +59,6 @@ print(f"{one_hot_certification.head(3).to_string()}\n")
 # combine
 dataframe = pd.concat([dataframe, one_hot_skills, one_hot_education, one_hot_role, one_hot_certification], axis=1)
 # save to csv
-dataframe.to_csv('ai_resume_data_processed.csv', index=False)
+dataframe.to_csv('resume_data_processed.csv', index=False)
 
 print(f"luksim note - saved to ai_resume_data_processed.csv and ready for analysis\n")
