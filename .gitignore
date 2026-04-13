@@ -1,2 +1,4 @@
 .DS_Store
 resume_data_processed.csv
+.Rproj.user
+images/*.png
