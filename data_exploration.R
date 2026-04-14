@@ -167,4 +167,7 @@ print("luksim note - experience, salary, and projects are similar across roles")
 # drop job role category (can be readded for SMOTE)
 dataframe$role_category <- NULL
 
+# save dataset
+write.csv(dataframe, file = "resume_data_explored.csv")
+
 
