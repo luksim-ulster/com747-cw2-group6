@@ -168,6 +168,5 @@ print("luksim note - experience, salary, and projects are similar across roles")
 dataframe$role_category <- NULL
 
 # save dataset
-write.csv(dataframe, file = "resume_data_explored.csv")
-
+write.csv(dataframe, file = "resume_data_explored.csv", row.names = FALSE)
 
