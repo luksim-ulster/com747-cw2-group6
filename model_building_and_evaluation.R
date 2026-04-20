@@ -1,3 +1,4 @@
+# all package installs and library calls grouped here
 install.packages("randomForest")
 install.packages("caret")
 install.packages("pROC")
@@ -12,6 +13,7 @@ library(ggplot2)
 library(C50)
 library(MLmetrics)
 
+# fix random seed for reproducibility
 set.seed(42)
 
 # load train and test data
@@ -70,6 +72,7 @@ dt_probs <- predict(dt_model, newdata = test_data, type = "prob")[, "Hired"]
 # RANDOM FOREST MODEL
 
 
+# define cross validation 
 rf_control <- trainControl(
   method = "repeatedcv",
   number = 10,
@@ -78,6 +81,7 @@ rf_control <- trainControl(
   classProbs = TRUE
 )
 
+# define tuning grid for random forest
 rf_grid <- expand.grid(mtry = c(3, 5, 7, 10))
 
 rf_model <- train(
@@ -140,6 +144,7 @@ print(metrics_plot)
 # PLOT 2: CONFUSION MATRICES
 
 
+# reusable function — accepts any caret confusion matrix object
 plot_confusion_matrix <- function(cm, title) {
   cm_table <- as.data.frame(cm$table)
   colnames(cm_table) <- c("Predicted", "Actual", "Count")
