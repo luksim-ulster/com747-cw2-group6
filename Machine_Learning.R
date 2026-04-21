@@ -22,7 +22,7 @@ plot(decisionTree)
 install.packages("caret")
 library(caret)
 control <-trainControl(method = "repeatedcv", number = 10,savePredictions = TRUE,repeats = 3) 
-customGrid <-expand.grid(model=c("rules", "tree"), trials = c(20, 25,30,35,40), winnow=c(FALSE))
+customGrid <-expand.grid(model=c("rules", "tree"), trials = 1, winnow=c(FALSE))
 model <-train(recruiter_decision~.,method="C5.0",data=trainingDataDT,trControl=control,tuneGrid= customGrid)
 
 predictions <-predict(model, newdata=testDataDT)
