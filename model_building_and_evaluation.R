@@ -137,7 +137,7 @@ metrics_plot <- ggplot(metrics_df, aes(x = Metric, y = Value, fill = Model)) +
     legend.position = "top"
   )
 
-ggsave("images/metrics_comparison.png", plot = metrics_plot, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("metrics_comparison.png", plot = metrics_plot, width = 8, height = 6, dpi = 300, bg = "white")
 print(metrics_plot)
 
 
@@ -162,11 +162,11 @@ plot_confusion_matrix <- function(cm, title) {
 }
 
 dt_cm_plot <- plot_confusion_matrix(dt_cm, "Decision Tree Confusion Matrix")
-ggsave("images/dt_confusion_matrix.png", plot = dt_cm_plot, width = 6, height = 5, dpi = 300, bg = "white")
+ggsave("dt_confusion_matrix.png", plot = dt_cm_plot, width = 6, height = 5, dpi = 300, bg = "white")
 print(dt_cm_plot)
 
 rf_cm_plot <- plot_confusion_matrix(rf_cm, "Random Forest Confusion Matrix")
-ggsave("images/rf_confusion_matrix.png", plot = rf_cm_plot, width = 6, height = 5, dpi = 300, bg = "white")
+ggsave("rf_confusion_matrix.png", plot = rf_cm_plot, width = 6, height = 5, dpi = 300, bg = "white")
 print(rf_cm_plot)
 
 
@@ -210,7 +210,7 @@ roc_plot <- ggplot(roc_df, aes(x = FPR, y = TPR, color = Model)) +
     legend.position = c(0.65, 0.15)
   )
 
-ggsave("images/roc_auc_curves.png", plot = roc_plot, width = 7, height = 6, dpi = 300, bg = "white")
+ggsave("roc_auc_curves.png", plot = roc_plot, width = 7, height = 6, dpi = 300, bg = "white")
 print(roc_plot)
 
 
@@ -220,29 +220,29 @@ print(roc_plot)
 dt_importance <- varImp(dt_model)$importance
 dt_importance$Feature <- rownames(dt_importance)
 dt_importance <- dt_importance[order(dt_importance$Overall, decreasing = TRUE), ]
-dt_top8 <- head(dt_importance, 8)
+dt_top15 <- head(dt_importance, 15)
 
-dt_importance_plot <- ggplot(dt_top8, aes(x = reorder(Feature, Overall), y = Overall)) +
+dt_importance_plot <- ggplot(dt_top15, aes(x = reorder(Feature, Overall), y = Overall)) +
   geom_bar(stat = "identity", fill = "#4C72B0", color = "black", alpha = 0.85) +
   coord_flip() +
-  labs(title = "Decision Tree: Top 8 Feature Importances", x = "Feature", y = "Importance") +
+  labs(title = "Decision Tree: Top 15 Feature Importances", x = "Feature", y = "Importance") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
 
-ggsave("images/dt_feature_importance.png", plot = dt_importance_plot, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("dt_feature_importance.png", plot = dt_importance_plot, width = 8, height = 6, dpi = 300, bg = "white")
 print(dt_importance_plot)
 
 rf_importance <- varImp(rf_model)$importance
 rf_importance$Feature <- rownames(rf_importance)
 rf_importance <- rf_importance[order(rf_importance$Overall, decreasing = TRUE), ]
-rf_top8 <- head(rf_importance, 8)
+rf_top15 <- head(rf_importance, 15)
 
-rf_importance_plot <- ggplot(rf_top8, aes(x = reorder(Feature, Overall), y = Overall)) +
+rf_importance_plot <- ggplot(rf_top15, aes(x = reorder(Feature, Overall), y = Overall)) +
   geom_bar(stat = "identity", fill = "#DD8452", color = "black", alpha = 0.85) +
   coord_flip() +
-  labs(title = "Random Forest: Top 8 Feature Importances", x = "Feature", y = "Importance") +
+  labs(title = "Random Forest: Top 15 Feature Importances", x = "Feature", y = "Importance") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
 
-ggsave("images/rf_feature_importance.png", plot = rf_importance_plot, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave("rf_feature_importance.png", plot = rf_importance_plot, width = 8, height = 6, dpi = 300, bg = "white")
 print(rf_importance_plot)
