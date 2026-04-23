@@ -161,6 +161,19 @@ outliers_projects <- boxplot.stats(dataframe$projects_count)$out
 print(outliers_projects)
 print(paste("projects_count outliers:", length(outliers_projects)))
 
+# non encoded features
+boxplot_dataframe <- pivot_longer(select(dataframe, experience_years, salary_expectation_., projects_count), 
+                                  cols = everything(), names_to = "non_encoded_feature", values_to = "value")
+
+non_encoded_boxplot <- ggplot(boxplot_dataframe, aes(x = non_encoded_feature, y = value,)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.25, height = 0, size = 0.8, alpha = 0.3) +
+  facet_wrap(~non_encoded_feature, scales = "free") +
+  theme_minimal() +
+  labs(title = "Boxplot of Non Encoded Features", x = "Non Encoded Feature", y = "Value") +
+  theme(legend.position = "none")
+ggsave(filename = "images/non_encoded_boxplot.png", plot = non_encoded_boxplot, width = 8, height = 6, dpi = 300, bg = "white")
+
 print("luksim note - box plots shows no outliers so no further data pruning needed")
 print("luksim note - experience, salary, and projects are similar across roles")
 
